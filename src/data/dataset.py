@@ -31,3 +31,25 @@ class SRDataset(Dataset):
         lr = bicubic_down(hr, self.scale)
         to_t = lambda im: torch.from_numpy(np.asarray(im).copy()).permute(2, 0, 1).float() / 255
         return to_t(lr), to_t(hr)
+class SRTrainCached(Dataset):
+    """Training set cached in RAM (uint8). Random patches, flips and rotations."""
+    def __init__(self, img_dir, names, scale=4, patch=128, repeat=10):
+        from tqdm import tqdm
+        self.scale, self.patch, self.repeat = scale, patch, repeat
+        self.imgs = [np.asarray(Image.open(Path(img_dir) / n).convert("RGB"))
+                     for n in tqdm(names, desc="caching train images")]
+
+    def __len__(self): return len(self.imgs) * self.repeat
+
+    def __getitem__(self, i):
+        img = self.imgs[i % len(self.imgs)]
+        h, w, _ = img.shape; p, s = self.patch, self.scale
+        y, x = random.randint(0, h - p), random.randint(0, w - p)
+        hr = img[y:y + p, x:x + p]
+        if random.random() < .5: hr = hr[:, ::-1]
+        if random.random() < .5: hr = hr[::-1]
+        if random.random() < .5: hr = hr.transpose(1, 0, 2)
+        hr = np.ascontiguousarray(hr)
+        lr = np.asarray(Image.fromarray(hr).resize((p // s, p // s), Image.BICUBIC))
+        to_t = lambda a: torch.from_numpy(a.copy()).permute(2, 0, 1).float() / 255
+        return to_t(lr), to_t(hr)

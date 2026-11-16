@@ -1,0 +1,4 @@
+method,dataset,psnr,ssim,lpips
+bicubic,DIV2K_test,28.4458,0.8023,0.3886
+bicubic,Set14,26.2199,0.7263,0.4433
+bicubic,Set5,28.6347,0.8265,0.3419

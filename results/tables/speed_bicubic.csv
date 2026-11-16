@@ -1,0 +1,5 @@
+method,device,lr_size,ms_median,ms_std,peak_mem_mb,params_m
+bicubic,cuda,64x64,0.16,0.018,11.0,0.0
+bicubic,cuda,256x256,1.879,0.021,34.2,0.0
+bicubic,cpu,64x64,3.351,0.61,,0.0
+bicubic,cpu,256x256,51.826,2.708,,0.0

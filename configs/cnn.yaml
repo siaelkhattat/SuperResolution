@@ -1,0 +1,14 @@
+name: edsr_lite
+seed: 42
+scale: 4
+n_blocks: 8
+channels: 64
+patch: 128
+batch_size: 16
+repeat: 10          # 300 images x 10 = 3000 patches per epoch
+epochs: 100
+lr: 0.0002
+lr_min: 0.000001
+val_every: 10
+raw_dir: data/raw
+ckpt_dir: /content/drive/MyDrive/sr_low_cost/checkpoints
