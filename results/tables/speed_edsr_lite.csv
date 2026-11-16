@@ -1,0 +1,5 @@
+method,device,lr_size,ms_median,ms_std,peak_mem_mb,params_m
+edsr_lite,cuda,64x64,5.415,0.596,54.0,0.927
+edsr_lite,cuda,256x256,48.723,0.344,549.7,0.927
+edsr_lite,cpu,64x64,131.834,14.289,,0.927
+edsr_lite,cpu,256x256,2785.065,479.118,,0.927
