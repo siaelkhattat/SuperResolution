@@ -15,22 +15,28 @@ def download_div2k(cfg):
             z.extractall(raw)
     print("DIV2K prêt :", len(list(out.glob("*.png"))), "images")
 
+import tarfile
+
+IMG_EXT = {".png", ".jpg", ".jpeg", ".bmp"}
+
 def download_benchmarks(cfg):
-    from huggingface_hub import snapshot_download
+    from huggingface_hub import hf_hub_download
     raw = Path(cfg["raw_dir"])
     for name in ["Set5", "Set14"]:
         dst = raw / name
-        if dst.exists() and any(dst.glob("*.png")):
+        if dst.exists() and any(p.suffix.lower() in IMG_EXT for p in dst.iterdir()):
             continue
-        tmp = Path(snapshot_download(repo_id=f"eugenesiow/{name}", repo_type="dataset"))
         dst.mkdir(parents=True, exist_ok=True)
-        for z in tmp.rglob("*.zip"):          # décompresser les archives éventuelles
-            with zipfile.ZipFile(z) as zf:
-                zf.extractall(tmp / "_unzipped")
-        for f in list(tmp.rglob("*.png")) + list(tmp.rglob("*.jpg")) + list(tmp.rglob("*.bmp")):
-            if "HR" in f.as_posix() and "LR" not in f.name:
+        archive = hf_hub_download(repo_id=f"eugenesiow/{name}", repo_type="dataset",
+                                  filename=f"data/{name}_HR.tar.gz")
+        tmp = raw / f"_{name}_extract"
+        with tarfile.open(archive, "r:gz") as tf:
+            tf.extractall(tmp)
+        for f in tmp.rglob("*"):
+            if f.is_file() and f.suffix.lower() in IMG_EXT:
                 shutil.copy(f, dst / f.name)
-        print(name, ":", len(list(dst.iterdir())), "images HR")
+        shutil.rmtree(tmp)
+        print(name, ":", len(list(dst.iterdir())), "HR images")
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("--config", default="configs/data.yaml")
