@@ -1,0 +1,8 @@
+data/raw/
+data/processed/
+*.pth
+*.pt
+.ipynb_checkpoints/
+__pycache__/
+results/checkpoints/
+.env

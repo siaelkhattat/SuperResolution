@@ -1,0 +1,12 @@
+torch
+torchvision
+numpy
+pillow
+scikit-image
+lpips
+pyyaml
+tqdm
+pandas
+matplotlib
+huggingface_hub
+gradio

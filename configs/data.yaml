@@ -1,0 +1,7 @@
+seed: 42
+scale: 4
+div2k_url: "http://data.vision.ee.ethz.ch/cvl/DIV2K/DIV2K_train_HR.zip"
+n_train: 300
+n_val: 50
+n_test: 50
+raw_dir: "data/raw"
