@@ -1,0 +1,10 @@
+method,dataset,psnr,ssim,lpips
+bicubic,DIV2K_test,28.4458,0.8023,0.3886
+bicubic,Set14,26.2199,0.7263,0.4433
+bicubic,Set5,28.6347,0.8265,0.3419
+edsr_gan,DIV2K_test,28.9823,0.8248,0.2007
+edsr_gan,Set14,27.205,0.7645,0.223
+edsr_gan,Set5,29.9061,0.862,0.1279
+edsr_lite_100ep,DIV2K_test,29.5146,0.838,0.2982
+edsr_lite_100ep,Set14,27.7839,0.7797,0.3241
+edsr_lite_100ep,Set5,30.901,0.8847,0.2083
