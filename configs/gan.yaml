@@ -1,0 +1,16 @@
+name: edsr_gan
+seed: 42
+scale: 4
+patch: 128
+batch_size: 16
+repeat: 10
+epochs: 60
+lr_g: 0.0001
+lr_d: 0.0001
+w_pix: 0.01
+w_per: 1.0
+w_adv: 0.005
+val_every: 10
+raw_dir: data/raw
+init_ckpt: /content/drive/MyDrive/sr_low_cost/checkpoints/edsr_lite_best.pth
+ckpt_dir: /content/drive/MyDrive/sr_low_cost/checkpoints
