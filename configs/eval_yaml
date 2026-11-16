@@ -1,0 +1,5 @@
+shave: 4
+speed:
+  sizes: [[64, 64], [256, 256]]
+  warmup: 10
+  runs: 50
