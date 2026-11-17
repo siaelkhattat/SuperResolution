@@ -9,7 +9,7 @@ def bicubic_down(img, scale):
     return img.resize((w // scale, h // scale), Image.BICUBIC)
 
 class SRDataset(Dataset):
-    def __init__(self, img_dir, names=None, scale=4, patch=128, train=True, repeat=10):
+    def __init__(self, img_dir, names=None, scale=4, patch=128, train=True, repeat=10, center_crop=None):
         d = Path(img_dir)
         self.files = [d / n for n in names] if names else sorted(p for p in d.iterdir()
                        if p.suffix.lower() in {".png", ".jpg", ".bmp"})
