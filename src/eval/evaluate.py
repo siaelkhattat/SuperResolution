@@ -14,8 +14,7 @@ def get_datasets(cfg_path="configs/data.yaml"):
     return {
         "Set5": SRDataset(raw / "Set5", scale=s, train=False),
         "Set14": SRDataset(raw / "Set14", scale=s, train=False),
-        "DIV2K_test": SRDataset(raw / "DIV2K_train_HR", names=test_names, scale=s, train=False),
-    }
+        "DIV2K_test_c512": SRDataset(raw / "DIV2K_train_HR", names=test_names, scale=s, train=False, center_crop=512),    }
 
 @torch.no_grad()
 def evaluate_method(name, model, datasets, device="cuda", shave=4):

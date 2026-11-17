@@ -15,6 +15,7 @@ class SRDataset(Dataset):
                        if p.suffix.lower() in {".png", ".jpg", ".bmp"})
         self.scale, self.patch, self.train = scale, patch, train
         self.repeat = repeat if train else 1
+        self.center_crop = center_crop
 
     def __len__(self): return len(self.files) * self.repeat
 
@@ -27,7 +28,14 @@ class SRDataset(Dataset):
             if random.random() < .5: hr = hr.transpose(Image.FLIP_LEFT_RIGHT)
             if random.random() < .5: hr = hr.transpose(Image.FLIP_TOP_BOTTOM)
         else:                                   # rogner pour que H, W soient divisibles par scale
-            w, h = hr.size; hr = hr.crop((0, 0, w - w % self.scale, h - h % self.scale))
+            w, h = hr.size;
+            hr = hr.crop((0, 0, w - w % self.scale, h - h % self.scale))
+            if self.center_crop:
+                w, h = hr.size;
+                c = min(self.center_crop, w, h);
+                c -= c % self.scale
+                l, t = (w - c) // 2, (h - c) // 2
+                hr = hr.crop((l, t, l + c, t + c))
         lr = bicubic_down(hr, self.scale)
         to_t = lambda im: torch.from_numpy(np.asarray(im).copy()).permute(2, 0, 1).float() / 255
         return to_t(lr), to_t(hr)
